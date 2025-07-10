@@ -126,3 +126,19 @@ python3 train.py
 ```
 python3 inference.py
 ```
+
+You'll see that GrugLLM got fine tuned and is now spewing some strange things:
+```
+=== Output ===
+### Prompt:
+How do I train a neural network?
+
+### Response:
+1. Find the value of the algorithm in a data-driven machine learning algorithm
+2. Write a good blog post about how to use data in a real-world scenario.
+3. Discover the best way to use a neural network to solve a problem.
+4. Learn about the most common mistakes in data science.
+5. Find a way to take a photo of a plant with a camera.
+6. Find a way to get a new device to work.
+7.
+```

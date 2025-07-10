@@ -17,6 +17,7 @@ model = model.to("cuda" if torch.cuda.is_available() else "cpu")
 # === Test prompt ===
 prompt = "### Prompt:\nHow do I train a neural network?\n\n### Response:\n"
 inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+input_ids = inputs["input_ids"]
 
 with torch.no_grad():
     output = model.generate(
