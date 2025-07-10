@@ -1,0 +1,19 @@
+bazel_dep(name = "rules_python", version = "0.40.0")
+bazel_dep(name = "platforms", version = "0.0.10")
+
+# Pip extension
+pip_ext = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+
+pip_ext.pip_parse(
+    name = "pip",
+    requirements_lock = "//:requirements.txt",
+)
+
+# Python toolchain extension
+python_ext = use_extension("@rules_python//python/extensions:extensions.bzl", "python")
+
+python_ext.toolchain(
+    python_version = "3.10",
+)
+
+use_repo(python_ext, "python_3_10")
