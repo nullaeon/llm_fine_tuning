@@ -123,3 +123,6 @@ python3 train.py
 ```
 
 ### Verify output
+```
+python3 inference.py
+```
