@@ -28,13 +28,13 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
 
 def formatting(example):
-    return f"{example['prompt']}\n{example['completion']}"
+    return [f"### Prompt:\n{example['prompt']}\n\n### Response:\n{example['completion']}"]
 
 # === Load model and apply LoRA ===
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_NAME,
     trust_remote_code=True,
-    torch_dtype=torch.bfloat16 if torch.cuda.is_available() else torch.float32,
+    torch_dtype=torch.float16,
     device_map="auto"
 )
 
@@ -48,6 +48,10 @@ lora_config = LoraConfig(
 )
 
 model = get_peft_model(model, lora_config)
+model.config.use_cache = False
+model.gradient_checkpointing_enable()
+model.enable_input_require_grads()
+model.print_trainable_parameters()
 
 # === Training config ===
 training_args = TrainingArguments(
@@ -58,8 +62,10 @@ training_args = TrainingArguments(
     logging_steps=1,
     num_train_epochs=3,
     max_steps=-1,
-    bf16=torch.cuda.is_bf16_supported(),
-    fp16=not torch.cuda.is_bf16_supported(),
+    bf16=False,
+    fp16=False,
+    gradient_checkpointing=True,
+    optim="adamw_torch_fused",
     save_strategy="epoch",
     save_total_limit=1,
     report_to="none"

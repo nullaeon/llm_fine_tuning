@@ -115,3 +115,11 @@ You should see something like the following:
 ```
 sudo ./dev.sh
 ```
+
+## Run LoRa Training
+From within the dev docker (either pull with `sudo ./pull.sh` or get into it with `sudo ./dev.sh`), run the following: 
+```
+python3 train.py
+```
+
+### Verify output
